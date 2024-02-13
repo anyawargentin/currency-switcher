@@ -75,4 +75,3 @@ function currency_switcher_cleanup() {
     cleanup_tables();
     wp_clear_scheduled_hook('hourly_currency_sync');
 }
-

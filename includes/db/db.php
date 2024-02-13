@@ -49,7 +49,7 @@ function setup_currencies() {
             $wpdb->prefix . 'currency_switcher',
             array(
                 'code'              => sanitize_text_field($currency->code),
-                'symbol'            => sanitize_text_field($currency->symbol),
+                'symbol'            => sanitize_text_field($currency->symbol_native),
                 'symbol_placement'  => $symbol_placement,
             ),
             array('%s', '%s')
@@ -79,6 +79,61 @@ function update_rates($store_currency = false) {
             array('%s')
         );
     }
+}
+
+/*
+*   Get base currency
+*/
+function get_base_currency() {
+    global $wpdb;
+
+    $base_currency_code = $wpdb->get_var("SELECT code FROM {$wpdb->prefix}currency_switcher WHERE rate = '1'");
+
+    if($base_currency_code) return $base_currency_code;
+
+    return false;
+}
+
+/*
+*   Get currency rate by currency code from database
+*/
+function get_currency_rate($code) {
+    global $wpdb;
+
+    $sql = $wpdb->prepare("
+        SELECT rate
+        FROM {$wpdb->prefix}currency_switcher 
+        WHERE code = %s
+    ", sanitize_text_field($code));
+    return $wpdb->get_var($sql);
+}
+
+/*
+*   Get currency symbol by currency code from database
+*/
+function get_currency_symbol($code) {
+    global $wpdb;
+
+    $sql = $wpdb->prepare("
+        SELECT symbol
+        FROM {$wpdb->prefix}currency_switcher 
+        WHERE code = %s
+    ", sanitize_text_field($code));
+    return $wpdb->get_var($sql);
+}
+
+/*
+*   Get currency symbol placement by currency code from database
+*/
+function get_currency_symbol_placement($code) {
+    global $wpdb;
+
+    $sql = $wpdb->prepare("
+        SELECT symbol_placement
+        FROM {$wpdb->prefix}currency_switcher 
+        WHERE code = %s
+    ", sanitize_text_field($code));
+    return $wpdb->get_var($sql);
 }
 
 /*

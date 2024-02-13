@@ -47,5 +47,6 @@ function fetch_api_currencies() {
         return false;
     }
     $currencies = json_decode($response)->data;
+    
     return $currencies;
 }

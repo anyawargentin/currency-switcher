@@ -1,52 +1,24 @@
 <?php
 /*
-*   Start session if not already started & check store currency
+* Get customer currency session
 */
-function start_session() {
-    if(!session_id()) {
-        session_start();
-    }
-
-    check_store_currency();
-}
-add_action('init', 'start_session');
-
-/*
-* If store currency has been changed, update rates to use the new store currency as base currency
-*/
-function check_store_currency() {
-    $store_currency = get_woocommerce_store_currency();
-
-    if(isset($_SESSION['store_currency']) && $store_currency !== $_SESSION['store_currency']) {
-        update_rates($new_currency); 
-    }
-
-    $_SESSION['store_currency'] = $store_currency;
+function get_customer_currency() {
+    if(isset($_SESSION['customer_currency'])) return $_SESSION['customer_currency'];
+    return false;
 }
 
 /*
-* Decide the correct symbol placement for the currency
+* If set, convert price to custom customer currency
 */
-function get_symbol_placement($currency_code) {
+function convert_price($price) {
+    $customer_code = get_customer_currency();
 
-    switch ($currency_code) {
-        case 'AED':
-            return 'right';
-        case 'QAR':
-            return 'right';
-        case 'OMR':
-            return 'right';
-        case 'SAR':
-            return 'right';
-        case 'SEK':
-            return 'space-right';
-        case 'NOK':
-            return 'space-right';
-        case 'DKK':
-            return 'space-right';
-        default:
-            return 'left';
+    if($customer_code && $price > 0) {
+        $customer_rate = get_currency_rate($customer_code);
+        if($customer_rate && $customer_rate !== '') $price = $price * floatval($customer_rate);
     }
+
+    return $price;
 }
 
 /*
@@ -84,11 +56,28 @@ function print_currency_switcher() {
 }
 
 /*
-* Get customer currency session
+*   Start session if not already started & check store currency
 */
-function get_customer_currency() {
-    if(isset($_SESSION['customer_currency'])) return $_SESSION['customer_currency'];
-    return false;
+function start_session() {
+    if(!session_id()) {
+        session_start();
+    }
+
+    check_store_currency();
+}
+add_action('init', 'start_session');
+
+/*
+* If store currency has been changed, update rates to use the new store currency as base currency
+*/
+function check_store_currency() {
+    $store_currency = get_woocommerce_store_currency();
+
+    if(isset($_SESSION['store_currency']) && $store_currency !== $_SESSION['store_currency']) {
+        update_rates($new_currency); 
+    }
+
+    $_SESSION['store_currency'] = $store_currency;
 }
 
 /*
@@ -96,4 +85,29 @@ function get_customer_currency() {
 */
 function set_customer_currency($code) {
     if($code && $code !== '') $_SESSION['customer_currency'] = sanitize_text_field($code);
+}
+
+/*
+* Decide the correct symbol placement for the currency
+*/
+function get_symbol_placement($currency_code) {
+
+    switch ($currency_code) {
+        case 'AED':
+            return 'right';
+        case 'QAR':
+            return 'right';
+        case 'OMR':
+            return 'right';
+        case 'SAR':
+            return 'right';
+        case 'SEK':
+                return 'space-right';
+        case 'NOK':
+            return 'space-right';
+        case 'DKK':
+            return 'space-right';
+        default:
+            return 'left';
+    }
 }
