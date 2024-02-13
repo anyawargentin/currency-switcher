@@ -8,6 +8,7 @@ jQuery(function($) {
 
 function updateCurrencies($) {
     $('#update-currencies').addClass('loading');
+    $('#currency-overview .spin-loader').fadeIn('fast');
 
     $.ajax({
         type: 'post',
@@ -32,7 +33,12 @@ function updateCurrencies($) {
             });
 
             $('#update-currencies').removeClass('loading');
+            $('#currency-overview .spin-loader').fadeOut('fast');
+            $('#update-currencies').val('Currencies updated!');
 
+            setTimeout(() => { 
+                $('#update-currencies').val('Update currencies');
+            }, 2000);
         }
     });
 }

@@ -5,7 +5,7 @@
 function fetch_api_rates($store_currency) {
     $url = 'https://api.freecurrencyapi.com/v1/latest?base_currency=' . sanitize_text_field($store_currency);
     $headers = array(
-        'apikey: fca_live_GRI7a71dGGdjfNUwgdTBaXJCrxdwlc2yKp3IF6SP'
+        'apikey: fca_live_KzQIgTz80MmaxgJyPbVKgGfilTZXDxxAtShcYvxs'
     );
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -31,7 +31,7 @@ function fetch_api_rates($store_currency) {
 function fetch_api_currencies() {
     $url = 'https://api.freecurrencyapi.com/v1/currencies';
     $headers = array(
-        'apikey: fca_live_GRI7a71dGGdjfNUwgdTBaXJCrxdwlc2yKp3IF6SP'
+        'apikey: fca_live_KzQIgTz80MmaxgJyPbVKgGfilTZXDxxAtShcYvxs'
     );
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

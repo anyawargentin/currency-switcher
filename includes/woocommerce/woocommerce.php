@@ -103,24 +103,3 @@ function get_woocommerce_store_currency() {
 
     return $format;
 }
-
-function custom_cart_item_price($product_price, $cart_item, $cart_item_key) {
-    $customer_code = get_customer_currency();
-    
-    if ($customer_code) {
-        $currency_symbol_placement = get_currency_symbol_placement($customer_code);
-
-        // Customize the currency format based on placement
-        if ($currency_symbol_placement == 'space-right') {
-            $product_price = wc_price($cart_item['data']->get_price(), array('currency' => get_woocommerce_currency())) . ' ' . get_woocommerce_currency_symbol();
-        } elseif ($currency_symbol_placement == 'right') {
-            $product_price = wc_price($cart_item['data']->get_price(), array('currency' => get_woocommerce_currency())) . get_woocommerce_currency_symbol();
-        } elseif ($currency_symbol_placement == 'left') {
-            $product_price = get_woocommerce_currency_symbol() . wc_price($cart_item['data']->get_price(), array('currency' => get_woocommerce_currency()));
-        }
-    }
-
-    return $product_price;
-}
-
-add_filter('woocommerce_cart_item_price', 'custom_cart_item_price', 10, 3);

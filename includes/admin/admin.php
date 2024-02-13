@@ -43,7 +43,10 @@ function currency_overview_content() {
             <?php
             } ?>
 
-            <div class="fullwidth"><input class="btn" type="submit" name="update-currencies" id="update-currencies" value="<?php echo __('Update currencies'); ?>"/></div>
+            <div class="fullwidth">
+                <div class="spin-loader"></div>
+                <input class="btn" type="submit" name="update-currencies" id="update-currencies" value="<?php echo __('Update currencies'); ?>"/>
+            </div>
         </form>
     <?php
     }

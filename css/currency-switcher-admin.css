@@ -27,6 +27,7 @@
 #currency-overview .fullwidth {
     margin-bottom: 30px;
     width: 100%;
+    position: relative;
 }
 
 #currency-overview .fullwidth p {
@@ -34,9 +35,8 @@
 }
 
 #currency-overview .btn {
-    border: 0;
+    border: none;
     border-radius: 2px;
-    box-sizing: border-box;
     color: #fff;
     cursor: pointer;
     font-family: inherit;
@@ -45,22 +45,40 @@
     margin: 0;
     padding: 14px 20px;
     text-decoration: none;
-    transition: .1s;
     margin-top: 15px;
     background: #007cba;
+    transition: 0.2s;
+    width: 200px;
 }
 
 #currency-overview .btn:hover {
     background: #006ba1;
 }
 
-#update-currencies.loading {
-    transition: 0.2s;
+#currency-overview .btn.loading {
+    pointer-events: none;
+    opacity: 0.3;
+    pointer-events: none;
+    color: #007cba;
 }
 
-#update-currencies.loading {
-    opacity: 0.6;
-    pointer-events: none;
+#currency-overview .spin-loader {
+    position: absolute;
+    top: 27px;
+    left: 90px;
+    border: 2px solid #f2f2f2;
+    border-top: 2px solid #a2c2d7;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    z-index: 1;
+    display: none;
+  }
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media screen and (min-width: 550px) {
