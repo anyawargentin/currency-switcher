@@ -24,15 +24,15 @@ jQuery(function($) {
 
             $.ajax({
                 type: 'post',
-                url: '/wp-admin/admin-ajax.php',
+                url: currencySwitcherSettings.ajaxurl,
                 data: {
                     action: 'update_customer_currency', 
-                    code: target.attr('data-code')
+                    code: target.attr('data-code'),
+                    nonce: currencySwitcherSettings.nonce
                 },
                 success: function(data){
                     location.reload();
                 }
-    
             });
         });
     });
